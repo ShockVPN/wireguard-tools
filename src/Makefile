@@ -90,6 +90,9 @@ wg: $(sort $(patsubst %.c,%.o,$(wildcard *.c)))
 clean:
 	$(RM) wg *.o *.d $(wildcard wincompat/*.o wincompat/*.lib wincompat/*.dll)
 
+deb: install
+	dpkg-deb --build ../out/ ../out/wg-tools.deb
+
 install: wg
 	@install -v -d "$(DESTDIR)$(BINDIR)" && install -v -m 0755 wg "$(DESTDIR)$(BINDIR)/wg"
 	@install -v -d "$(DESTDIR)$(MANDIR)/man8" && install -v -m 0644 man/wg.8 "$(DESTDIR)$(MANDIR)/man8/wg.8"
@@ -109,6 +112,6 @@ check: clean
 
 all: wg
 .DEFAULT_GOAL: all
-.PHONY: clean install check
+.PHONY: clean install check deb
 
 -include *.d
