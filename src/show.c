@@ -247,7 +247,7 @@ static void dump_print(struct wgdevice *device, bool with_interface)
 		printf("%s\t", key(peer->public_key));
 		printf("%s\t", maybe_key(peer->preshared_key, peer->flags & WGPEER_HAS_PRESHARED_KEY));
 		if (peer->endpoint.addr.sa_family == AF_INET || peer->endpoint.addr.sa_family == AF_INET6)
-			printf("(hidden)");
+			printf("(hidden)\t");
 		else
 			printf("(none)\t");
 		if (peer->first_allowedip) {
@@ -294,7 +294,7 @@ static bool ugly_print(struct wgdevice *device, const char *param, bool with_int
 				printf("%s\t", device->name);
 			printf("%s\t", key(peer->public_key));
 			if (peer->endpoint.addr.sa_family == AF_INET || peer->endpoint.addr.sa_family == AF_INET6)
-				printf("(hidden)");
+				printf("(hidden)\n");
 			else
 				printf("(none)\n");
 		}
