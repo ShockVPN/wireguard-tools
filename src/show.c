@@ -103,29 +103,6 @@ static char *ip(const struct wgallowedip *ip)
 	return buf;
 }
 
-static char *endpoint(const struct sockaddr *addr)
-{
-	char host[4096 + 1];
-	char service[512 + 1];
-	static char buf[sizeof(host) + sizeof(service) + 4];
-	int ret;
-	socklen_t addr_len = 0;
-
-	memset(buf, 0, sizeof(buf));
-	if (addr->sa_family == AF_INET)
-		addr_len = sizeof(struct sockaddr_in);
-	else if (addr->sa_family == AF_INET6)
-		addr_len = sizeof(struct sockaddr_in6);
-
-	ret = getnameinfo(addr, addr_len, host, sizeof(host), service, sizeof(service), NI_DGRAM | NI_NUMERICSERV | NI_NUMERICHOST);
-	if (ret) {
-		strncpy(buf, gai_strerror(ret), sizeof(buf) - 1);
-		buf[sizeof(buf) - 1] = '\0';
-	} else
-		snprintf(buf, sizeof(buf), (addr->sa_family == AF_INET6 && strchr(host, ':')) ? "[%s]:%s" : "%s:%s", host, service);
-	return buf;
-}
-
 static size_t pretty_time(char *buf, const size_t len, unsigned long long left)
 {
 	size_t offset = 0;
